@@ -191,22 +191,22 @@ class FavoritesPage extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
-          child: Text(
-            'You have ${appState.favorites.length} favorite words!',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 5.0,
-                      color: const Color.fromARGB(255, 184, 95, 164).withOpacity(0.5),
-                      offset: Offset(2.0, 2.0),
-                    ),
-                  ],
-                  letterSpacing: 1.2,
-                ),
-            textAlign: TextAlign.center,
-          ),
+            child: Text(
+              'You have ${appState.favorites.length} favorite words!',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 5.0,
+                        color: const Color.fromARGB(255, 184, 95, 164).withOpacity(0.5),
+                        offset: Offset(2.0, 2.0),
+                      ),
+                    ],
+                    letterSpacing: 1.2,
+                  ),
+              textAlign: TextAlign.center,
+            ),
           ),
           ...appState.favorites.map(
             (str) => ListTile(
@@ -220,6 +220,16 @@ class FavoritesPage extends StatelessWidget {
                   ),
                 );
               },
+              onLongPress: () {
+                appState.favorites.remove(str);
+                appState.notifyListeners();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("${str.asLowerCase} removed from favorites!"),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -228,6 +238,7 @@ class FavoritesPage extends StatelessWidget {
   }
 }
 
+
 class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -235,31 +246,50 @@ class HistoryPage extends StatelessWidget {
 
     return Container(
       color: Colors.white,
-      child: ListView(
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
             child: Text(
-            'Generated words history:',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 5.0,
-                      color: const Color.fromARGB(255, 184, 95, 164).withOpacity(0.5),
-                      offset: Offset(2.0, 2.0),
-                    ),
-                  ],
-                  letterSpacing: 1.2,
+              'Generated words history:',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 5.0,
+                        color: const Color.fromARGB(255, 184, 95, 164).withOpacity(0.5),
+                        offset: Offset(2.0, 2.0),
+                      ),
+                    ],
+                    letterSpacing: 1.2,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              appState.history.clear();
+              appState.notifyListeners();
+            },
+            child: Text('Clear History'),
+          ),
+          Expanded(
+            child: ListView(
+              children: appState.history.map(
+                (str) => ListTile(
+                  title: Text(str.asLowerCase),
+                  textColor: Theme.of(context).primaryColor,
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("${str.asLowerCase}!"),
+                        duration: Duration(seconds: 1),
+                      ),
+                    );
+                  },
                 ),
-            textAlign: TextAlign.center,
-          ),
-          ),
-          ...appState.history.map(
-            (str) => ListTile(
-              title: Text(str.asLowerCase),
-              textColor: Theme.of(context).primaryColor,
+              ).toList(),
             ),
           ),
         ],

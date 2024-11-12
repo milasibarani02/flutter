@@ -16,4 +16,10 @@ Aplikasi Flutter untuk menghasilkan pasangan kata secara acak dan memungkinkan p
 - Menampilkan halaman riwayat kata
   ![Screenshot 2024-11-12 145010](https://github.com/user-attachments/assets/1900791f-119e-431f-876f-d9b9e8ae76e1)
 
+- Menghapus list favorit dengan menekakan lama di list halaman favorit
+  ![Screenshot 2024-11-12 152453](https://github.com/user-attachments/assets/f2755c51-eb56-42fe-bc67-641bb33b0c17)
 
+- Menghapus semua data history dengan klik Clear History
+  ![Screenshot 2024-11-12 152606](https://github.com/user-attachments/assets/5ef2b26d-22e2-4425-9f0d-292eb7bf0dd8)
+
+  

@@ -1,4 +1,4 @@
 # flutter_counter_cubit
 
-![image](https://github.com/user-attachments/assets/d3d0e981-f272-4243-9121-c74328515be7)
+![image](https://github.com/user-attachments/assets/cd70feec-ef5a-48bf-b9bf-431e13cc6683)
 

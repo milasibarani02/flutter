@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_login_api/auth/auth.dart';
+import 'package:flutter_login_api/wise_word/wise_word_page.dart'; 
+import 'package:flutter_login_api/post_list/lib/post_list/view/post_list_page.dart'; 
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

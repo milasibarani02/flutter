@@ -6,6 +6,8 @@ import 'package:flutter_login_api/home/screen/home_screen.dart';
 import 'package:flutter_login_api/login/screen/login_screen.dart';
 import 'package:flutter_login_api/splash_screen.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:flutter_login_api/post_list/lib/post_list/view/post_list_page.dart';
+import 'package:flutter_login_api/wise_word/wise_word_page.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -54,14 +56,24 @@ class AppScreen extends StatefulWidget {
 }
 
 class _AppScreenState extends State<AppScreen> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
+  int _selectedIndex = 0; // Track which tab is selected
 
-  NavigatorState get _navigator => _navigatorKey.currentState!;
+  // List of pages for BottomNavigationBar
+  final List<Widget> _pages = [
+    const PostListPage(),
+    const HomeScreen(),
+    const WiseWordPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index; // Update the selected index
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      navigatorKey: _navigatorKey,
       theme: ThemeData(
         useMaterial3: true,
       ),
@@ -71,16 +83,24 @@ class _AppScreenState extends State<AppScreen> {
             print('authState.status ${state.status}');
             switch (state.status) {
               case AuthStatus.authenticated:
-                _navigator.pushNamedAndRemoveUntil<void>(
-                  "/home",
-                  (route) => false,
-                );
+                // Menunda navigasi untuk memastikan context sudah siap
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushNamedAndRemoveUntil<void>(
+                    context,
+                    "/home",
+                    (route) => false,
+                  );
+                });
                 break;
               default:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginScreen.route(),
-                  (route) => false,
-                );
+                // Menunda navigasi untuk memastikan context sudah siap
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.pushAndRemoveUntil<void>(
+                    context,
+                    LoginScreen.route(),
+                    (route) => false,
+                  );
+                });
                 break;
             }
           },
@@ -96,6 +116,10 @@ class _AppScreenState extends State<AppScreen> {
             return LoginScreen.route();
           case '/home':
             return HomeScreen.route();
+          case '/postlist':
+            return PostListPage.route();
+          case '/wiseword':
+            return WiseWordPage.route();
           default:
             return MaterialPageRoute<void>(
               builder: (context) => const Scaffold(
@@ -104,6 +128,28 @@ class _AppScreenState extends State<AppScreen> {
             );
         }
       },
+      home: Scaffold(
+        body: _pages[_selectedIndex], // Display the selected page
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex, // Set the currently selected tab
+          onTap: _onItemTapped, // Handle tab change
+          selectedItemColor: Colors.pinkAccent,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Post List',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.text_fields),
+              label: 'Wise Words',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -6,7 +6,8 @@
 
 ![Screenshot 2024-11-17 195455](https://github.com/user-attachments/assets/533181b7-c7bf-470f-b515-ea9ea8f022e1)
 
-![Screenshot 2024-11-17 200100](https://github.com/user-attachments/assets/7c694b49-be11-4711-87c2-4cab136e7d7b)
+![Screenshot 2024-11-17 200100](https://github.com/user-attachments/assets/689bb471-3eb7-49c3-92b8-37172640a5b7)
+
 
 A new Flutter project.
 
